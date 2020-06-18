@@ -6,7 +6,7 @@ use tokio::sync::Mutex;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Event {
-    pub id: String,
+    pub id: u64,
     pub name: String,
     pub start: String,
     pub finish: String,
@@ -14,7 +14,7 @@ pub struct Event {
 
 #[derive(Debug)]
 pub struct User {
-    pub id: String,
+    pub id: u64,
     pub name: String,
     pub email: String,
     pub password: String,
@@ -34,8 +34,9 @@ pub fn blank_db() -> Db {
 }
 
 impl User {
-    pub fn new(name: String, email: String, password: String) -> Self {
+    pub fn new(id: u64, name: String, email: String, password: String) -> Self {
         User {
+            id,
             name,
             email,
             password,
@@ -44,8 +45,9 @@ impl User {
 }
 
 impl Event {
-    pub fn new(name: String, start: String, finish: String) -> Self {
+    pub fn new(id: u64, name: String, start: String, finish: String) -> Self {
         Event {
+            id,
             name,
             start,
             finish,

@@ -1,0 +1,15 @@
+[package]
+name = "no12-rs"
+version = "0.1.0"
+authors = ["Caio Raposo <caioraposo@protonmail.com>"]
+edition = "2018"
+
+
+[dependencies]
+tokio = { version = "0.2", features = ["macros"] }
+warp = "0.2"
+serde = { version = "1.0", features = ["derive"] }
+serde_derive = "1.0"
+serde_json = "1.0"
+log = "0.4"
+pretty_env_logger = "0.4"

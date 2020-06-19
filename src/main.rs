@@ -2,8 +2,6 @@ mod models;
 
 use warp::Filter;
 
-use self::models::{Event, User};
-
 #[tokio::main]
 async fn main() {
     let db = models::blank_db();
@@ -15,13 +13,16 @@ async fn main() {
 
 mod filters {
     use super::handlers;
-    use crate::models::{Db, Event, ListOptions};
+    use crate::models::{Db, ListOptions};
     use warp::Filter;
 
     pub fn events(
         db: Db,
     ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-        events_list(db.clone()).or(event_create(db.clone()))
+        events_list(db.clone())
+        .or(event_create(db.clone()))
+        .or(event_update(db.clone()))
+        .or(event_delete(db.clone()))
     }
 
     pub fn events_list(
@@ -42,6 +43,25 @@ mod filters {
             .and(warp::body::json())
             .and(with_db(db))
             .and_then(handlers::create_event)
+    }
+
+    pub fn event_update(
+        db: Db,
+    ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+        warp::path!("events" / u64)
+            .and(warp::put())
+            .and(warp::body::json())
+            .and(with_db(db))
+            .and_then(handlers::update_event)
+    }
+
+    pub fn event_delete(
+        db: Db,
+    ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+        warp::path!("events" / u64)
+            .and(warp::delete())
+            .and(with_db(db))
+            .and_then(handlers::delete_event)
     }
 
     fn with_db(db: Db) -> impl Filter<Extract = (Db,), Error = std::convert::Infallible> + Clone {
@@ -65,7 +85,7 @@ mod handlers {
         Ok(warp::reply::json(&events))
     }
 
-    pub async fn create_event(new: Event, mut db: Db) -> Result<impl warp::Reply, Infallible> {
+    pub async fn create_event(new: Event, db: Db) -> Result<impl warp::Reply, Infallible> {
         let mut events = db.lock().await;
 
         for event in events.iter() {

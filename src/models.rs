@@ -8,8 +8,14 @@ use tokio::sync::Mutex;
 pub struct Event {
     pub id: u64,
     pub name: String,
+    pub date: String,
+    pub local: String,
     pub start: String,
     pub finish: String,
+    pub price: f32,
+    pub description: String,
+    pub age_limit: u32,
+    pub event_photo: String,
 }
 
 #[derive(Debug)]
@@ -33,24 +39,30 @@ pub fn blank_db() -> Db {
     Arc::new(Mutex::new(Vec::new()))
 }
 
-impl User {
-    pub fn new(id: u64, name: String, email: String, password: String) -> Self {
-        User {
-            id,
-            name,
-            email,
-            password,
-        }
-    }
-}
+// impl User {
+//     pub fn new(id: u64, name: String, email: String, password: String) -> Self {
+//         User {
+//             id,
+//             name,
+//             email,
+//             password,
+//         }
+//     }
+// }
 
-impl Event {
-    pub fn new(id: u64, name: String, start: String, finish: String) -> Self {
-        Event {
-            id,
-            name,
-            start,
-            finish,
-        }
-    }
-}
+// impl Event {
+//     pub fn new(id: u64, name: String, date: String, local: String, start: String, finish: String, price: f32, description: String, age_limit: u32, event_photo: String) -> Self {
+//         Event {
+//             id,
+//             name,
+//             date,
+//             local,
+//             start,
+//             finish,
+//             price,
+//             description,
+//             age_limit,
+//             event_photo,
+//         }
+//     }
+// }

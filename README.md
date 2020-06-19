@@ -1,6 +1,7 @@
 <p align="center">
   <img src="docs/img/no12_logo2.png" height="150">
 </p>
+
 [![CI](https://github.com/urban-fiesta/no12-rs/workflows/CI/badge.svg)](https://github.com/urban-fiesta/no12-rs/actions?workflow=CI)
 
 O **No 12** é uma plataforma que permite encontrar **locais** para sair e **eventos** que acontecem nesse exato momento na sua localidade.<br>

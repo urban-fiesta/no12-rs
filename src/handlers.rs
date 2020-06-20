@@ -14,6 +14,10 @@ pub async fn list_events(opts: ListOptions, db: Db) -> Result<impl warp::Reply, 
         .into_iter()
         .skip(opts.offset.unwrap_or(0))
         .take(opts.limit.unwrap_or(std::usize::MAX))
+        .filter(|event| match &opts.tag {
+            Some(tag) => event.tag_list.contains(&tag),
+            None => true,
+        })
         .collect();
     Ok(warp::reply::json(&events))
 }

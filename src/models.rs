@@ -13,6 +13,7 @@ pub struct Event {
     pub start: String,
     pub finish: String,
     pub price: f32,
+    pub tag_list: Vec<String>,
     pub description: Option<String>,
     pub age_limit: Option<u32>,
     pub event_photo: Option<String>,
@@ -30,6 +31,7 @@ pub struct User {
 pub struct ListOptions {
     pub offset: Option<usize>,
     pub limit: Option<usize>,
+    pub tag: Option<String>,
 }
 
 /// A simple in-memory DB, a vector synchronized by a mutex.

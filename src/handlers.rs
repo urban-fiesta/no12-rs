@@ -3,6 +3,10 @@ use warp::http::StatusCode;
 
 use crate::models::{Db, Event, ListOptions};
 
+pub fn index() -> &'static str {
+    "Hello world!"
+}
+
 pub async fn list_events(opts: ListOptions, db: Db) -> Result<impl warp::Reply, Infallible> {
     let events = db.lock().await;
     let events: Vec<Event> = events
@@ -12,6 +16,18 @@ pub async fn list_events(opts: ListOptions, db: Db) -> Result<impl warp::Reply, 
         .take(opts.limit.unwrap_or(std::usize::MAX))
         .collect();
     Ok(warp::reply::json(&events))
+}
+
+pub async fn get_event_by_id(id: u64, db: Db) -> Result<impl warp::Reply, Infallible> {
+    let events = db.lock().await;
+    let mut result = Vec::new();
+
+    for event in events.iter() {
+        if event.id == id {
+            result.push(event)
+        }
+    }
+    Ok(warp::reply::json(&result))
 }
 
 pub async fn create_event(new: Event, db: Db) -> Result<impl warp::Reply, Infallible> {

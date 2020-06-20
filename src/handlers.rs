@@ -18,16 +18,15 @@ pub async fn list_events(opts: ListOptions, db: Db) -> Result<impl warp::Reply, 
     Ok(warp::reply::json(&events))
 }
 
-pub async fn get_event_by_id(id: u64, db: Db) -> Result<impl warp::Reply, Infallible> {
+pub async fn get_event_by_id(id: u64, db: Db) -> Result<Box<dyn warp::Reply>, Infallible> {
     let events = db.lock().await;
-    let mut result = Vec::new();
 
     for event in events.iter() {
         if event.id == id {
-            result.push(event)
+            return Ok(Box::new(warp::reply::json(&event)));
         }
     }
-    Ok(warp::reply::json(&result))
+    Ok(Box::new(StatusCode::NOT_FOUND))
 }
 
 pub async fn create_event(new: Event, db: Db) -> Result<impl warp::Reply, Infallible> {

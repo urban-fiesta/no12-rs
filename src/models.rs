@@ -13,9 +13,9 @@ pub struct Event {
     pub start: String,
     pub finish: String,
     pub price: f32,
-    pub description: String,
-    pub age_limit: u32,
-    pub event_photo: String,
+    pub description: Option<String>,
+    pub age_limit: Option<u32>,
+    pub event_photo: Option<String>,
 }
 
 #[derive(Debug)]

@@ -35,8 +35,9 @@ pub async fn start() {
 
     let cors = warp::cors()
         .allow_any_origin()
-        .allow_headers(vec!["*"])
-        .allow_methods(vec!["POST"]);
+        .allow_credentials(true)
+        .allow_header("content-type")
+        .allow_methods(vec!["GET", "POST", "DELETE", "OPTIONS"]);
 
     let db = models::blank_db();
 

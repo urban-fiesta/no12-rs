@@ -17,14 +17,15 @@ pub struct AppState {
 */
 
 pub async fn start() {
-    /* Very soon we'll be using this, so I'm leaving this here
+    /*
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     let repository = Repository(Repo::new(&database_url));
-    let app_state = AppState {
+    let jwt_secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
+
+    let _app_state = AppState {
         repository,
         jwt_secret,
     };
-    let jwt_secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
     */
 
     let bind_address: SocketAddr = env::var("BIND_ADDRESS")
@@ -32,8 +33,16 @@ pub async fn start() {
         .parse()
         .expect("BIND_ADDRESS is invalid");
 
+    let cors = warp::cors()
+        .allow_any_origin()
+        .allow_headers(vec!["*"])
+        .allow_methods(vec!["POST"]);
+
     let db = models::blank_db();
-    let routes = routes::routes(db).with(warp::log(APPLICATION_NAME));
+
+    let routes = routes::routes(db)
+        .with(warp::log(APPLICATION_NAME))
+        .with(cors);
 
     warp::serve(routes).run(bind_address).await;
 }

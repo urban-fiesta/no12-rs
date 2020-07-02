@@ -723,8 +723,6 @@ dependencies = [
  "log 0.4.8",
  "pretty_env_logger",
  "serde",
- "serde_derive",
- "serde_json",
  "tokio",
  "uuid 0.6.5",
  "warp",

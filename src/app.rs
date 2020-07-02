@@ -12,7 +12,6 @@ const APPLICATION_NAME: &str = env!("CARGO_PKG_NAME");
 #[derive(Clone)]
 pub struct AppState {
     pub repository: Repository,
-    pub jwt_secret: String,
 }
 */
 
@@ -20,11 +19,9 @@ pub async fn start() {
     /*
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     let repository = Repository(Repo::new(&database_url));
-    let jwt_secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
 
     let _app_state = AppState {
         repository,
-        jwt_secret,
     };
     */
 
